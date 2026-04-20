@@ -1,0 +1,2 @@
+# This file exists so git tracks the data/ directory.
+# The actual .db files are ignored via .gitignore.

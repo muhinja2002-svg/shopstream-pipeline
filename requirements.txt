@@ -1,0 +1,18 @@
+# Streaming
+kafka-python>=2.0.2
+
+# Database
+duckdb>=1.0.0
+
+# dbt + DuckDB adapter
+dbt-duckdb>=1.7.0
+
+# Data generation
+faker>=20.0.0
+
+# Dashboard
+streamlit>=1.35.0
+plotly>=5.18.0
+
+# Data processing
+pandas>=2.0.0

@@ -1,0 +1,67 @@
+version: 2
+
+models:
+
+  # ── Staging ──────────────────────────────────────────────────────────────────
+  - name: stg_events
+    description: >
+      Staged e-commerce events with the raw JSON parsed into typed columns.
+      One row per event. This is the single source of truth for all downstream models.
+    columns:
+      - name: user_id
+        description: "Unique identifier for the user (e.g. usr_1234)."
+        tests:
+          - not_null
+
+      - name: session_id
+        description: "8-character UUID linking events that belong to the same browsing session."
+        tests:
+          - not_null
+
+      - name: event_type
+        description: "Stage of the conversion funnel this event represents."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['page_view', 'add_to_cart', 'order_placed']
+
+      - name: sku
+        description: "Stock-keeping unit of the product viewed or purchased."
+        tests:
+          - not_null
+
+      - name: price
+        description: "Product price in USD at the time of the event."
+        tests:
+          - not_null
+
+      - name: event_at
+        description: "UTC timestamp of when the event occurred."
+        tests:
+          - not_null
+
+  # ── Marts ─────────────────────────────────────────────────────────────────────
+  - name: fct_conversion_funnel
+    description: >
+      Aggregated conversion funnel showing how users progress from a page view
+      to placing an order, including drop-off rates at each step.
+    columns:
+      - name: total_visitors
+        description: "Count of distinct users who had at least one page_view."
+        tests:
+          - not_null
+
+      - name: total_adds
+        description: "Count of distinct users who added at least one item to their cart."
+        tests:
+          - not_null
+
+      - name: total_purchases
+        description: "Count of distinct users who placed at least one order."
+        tests:
+          - not_null
+
+      - name: overall_conversion_pct
+        description: "Percentage of visitors who ultimately placed an order."
+        tests:
+          - not_null

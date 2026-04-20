@@ -1,0 +1,14 @@
+version: 2
+
+sources:
+  - name: shopstream
+    description: "Raw e-commerce events ingested from Redpanda via consumer.py."
+    schema: main
+    tables:
+      - name: raw_events
+        description: "One row per event. All fields are stored as a single JSON blob."
+        columns:
+          - name: event_json
+            description: "Full event payload as JSON (event_type, user_id, session_id, sku, price, timestamp)."
+          - name: ingested_at
+            description: "UTC timestamp of when the consumer wrote this row to DuckDB."
